@@ -28,12 +28,12 @@ const HeroesList = () => {
     if (heroesLoadingStatus === "loading") {
         return <Spinner/>;
     } else if (heroesLoadingStatus === "error") {
-        return <h5 className="text-center mt-5">Ошибка загрузки</h5>
+        return <h5 className="text-center mt-5">Loading error</h5>
     }
 
     const renderHeroesList = (arr) => {
         if (arr.length === 0) {
-            return <h5 className="text-center mt-5">Героев пока нет</h5>
+            return <h5 className="text-center mt-5">No heroes so far</h5>
         }
 
         return arr.map(({id, ...props}) => {

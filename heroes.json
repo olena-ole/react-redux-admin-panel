@@ -2,7 +2,7 @@
     "heroes": [
         {
             "id": 1,
-            "name": "The First Hero",
+            "name": "The Number One Hero",
             "description": "The hero topping the rating!",
             "element": "fire"
         },
