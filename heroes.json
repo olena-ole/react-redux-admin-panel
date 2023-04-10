@@ -1,29 +1,29 @@
 {
-    "heroes": [
-        {
-            "id": 1,
-            "name": "The Number One Hero",
-            "description": "The hero topping the rating!",
-            "element": "fire"
-        },
-        {
-            "id": 2,
-            "name": "Unknown Hero",
-            "description": "Hiding in shadows",
-            "element": "wind"
-        },
-        {
-            "id": 3,
-            "name": "The Marine Hero",
-            "description": "Like the Aquaman, but not from DC",
-            "element": "water"
-        }
-    ],
-    "filters": [
-        "all",
-        "fire",
-        "water",
-        "wind",
-        "earth"
-    ]
+  "heroes": [
+    {
+      "id": 1,
+      "name": "The Prime Hero",
+      "description": "Number one in rating!",
+      "element": "fire"
+    },
+    {
+      "id": 2,
+      "name": "Unknown Hero",
+      "description": "Hiding in shadows",
+      "element": "wind"
+    },
+    {
+      "id": 3,
+      "name": "Marine Hero",
+      "description": "Like Aquaman, but not from the DC",
+      "element": "water"
+    }
+  ],
+  "filters": [
+    "all",
+    "fire",
+    "water",
+    "wind",
+    "earth"
+  ]
 }

@@ -2,7 +2,7 @@ import {useHttp} from '../../hooks/http.hook';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { heroesFetching, heroesFetched, heroesFetchingError } from '../../actions';
+import { heroesFetching, heroesFetched, heroesFetchingError, heroDelete } from '../../actions';
 import HeroesListItem from "../heroesListItem/HeroesListItem";
 import Spinner from '../spinner/Spinner';
 
@@ -25,6 +25,13 @@ const HeroesList = () => {
         // eslint-disable-next-line
     }, []);
 
+    const handleDelete = (id) => {
+        request(`http://localhost:3001/heroes/${id}`, 'DELETE')
+            .then(data => console.log(data, 'DELETED'))
+            .then(dispatch(heroDelete(id)))
+            .catch(() => dispatch(heroesFetchingError()))
+    }
+
     if (heroesLoadingStatus === "loading") {
         return <Spinner/>;
     } else if (heroesLoadingStatus === "error") {
@@ -37,7 +44,7 @@ const HeroesList = () => {
         }
 
         return arr.map(({id, ...props}) => {
-            return <HeroesListItem key={id} {...props}/>
+            return <HeroesListItem key={id} {...props} handleDelete={() => handleDelete(id)} />
         })
     }
 
@@ -50,3 +57,22 @@ const HeroesList = () => {
 }
 
 export default HeroesList;
+
+// {
+//   "id": 1,
+//   "name": "The Prime Hero",
+//   "description": "Number one in rating!",
+//   "element": "fire"
+// },
+// {
+//   "id": 2,
+//   "name": "Unknown Hero",
+//   "description": "Hiding in shadows",
+//   "element": "wind"
+// },
+// {
+//   "id": 3,
+//   "name": "Marine Hero",
+//   "description": "Like Aquaman, but not from the DC",
+//   "element": "water"
+// }
