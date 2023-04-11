@@ -1,5 +1,4 @@
-
-
+import { useForm } from "react-hook-form";
 // Задача для этого компонента:
 // Реализовать создание нового героя с введенными данными. Он должен попадать
 // в общее состояние и отображаться в списке + фильтроваться
@@ -11,14 +10,18 @@
 // данных из фильтров
 
 const HeroesAddForm = () => {
+    const {register, handleSubmit} = useForm();
+
+    const onSubmit = data => console.log(data);
+
     return (
-        <form className="border p-4 shadow-lg rounded">
+        <form onSubmit={handleSubmit(onSubmit)} className="border p-4 shadow-lg rounded">
             <div className="mb-3">
                 <label htmlFor="name" className="form-label fs-4">New hero's name</label>
                 <input 
                     required
                     type="text" 
-                    name="name" 
+                    {...register("name")} 
                     className="form-control" 
                     id="name" 
                     placeholder="What's my name?"/>
@@ -28,7 +31,7 @@ const HeroesAddForm = () => {
                 <label htmlFor="text" className="form-label fs-4">Description</label>
                 <textarea
                     required
-                    name="text" 
+                    {...register("text")} 
                     className="form-control" 
                     id="text" 
                     placeholder="What can I do?"
@@ -39,9 +42,9 @@ const HeroesAddForm = () => {
                 <label htmlFor="element" className="form-label">Choose the element of your hero</label>
                 <select 
                     required
+                    {...register("element")}
                     className="form-select" 
-                    id="element" 
-                    name="element">
+                    id="element">
                     <option >I have the element of...</option>
                     <option value="fire">Fire</option>
                     <option value="water">Water</option>
