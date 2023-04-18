@@ -1,4 +1,5 @@
 import { useForm } from "react-hook-form";
+import { v4 as uuidv4 } from 'uuid';
 // Задача для этого компонента:
 // Реализовать создание нового героя с введенными данными. Он должен попадать
 // в общее состояние и отображаться в списке + фильтроваться
@@ -12,7 +13,14 @@ import { useForm } from "react-hook-form";
 const HeroesAddForm = () => {
     const {register, handleSubmit} = useForm();
 
-    const onSubmit = data => console.log(data);
+    const onSubmit = data => {
+        const newHero = {
+            id: uuidv4(),
+            ...data,
+        }
+        
+        console.log(newHero);
+    };
 
     return (
         <form onSubmit={handleSubmit(onSubmit)} className="border p-4 shadow-lg rounded">
