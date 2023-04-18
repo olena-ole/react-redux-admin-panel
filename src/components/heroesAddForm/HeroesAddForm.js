@@ -3,12 +3,11 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { v4 as uuidv4 } from 'uuid';
-// Задача для этого компонента:
-// Реализовать создание нового героя с введенными данными. Он должен попадать
-// в общее состояние и отображаться в списке + фильтроваться
-// Уникальный идентификатор персонажа можно сгенерировать через uiid
-// Усложненная задача:
-// Персонаж создается и в файле json при помощи метода POST
+
+import { useHttp } from '../../hooks/http.hook';
+import { useDispatch } from 'react-redux';
+import { heroAdded, heroesFetchingError } from '../../actions';
+
 // Дополнительно:
 // Элементы <option></option> желательно сформировать на базе
 // данных из фильтров
@@ -16,8 +15,8 @@ import { v4 as uuidv4 } from 'uuid';
 const schema = yup.object({
     name: yup.string()
         .required('enter the name of your hero')
-        .min(3, 'must be at least 3 characters')
-        .max(20, 'must be 20 characters max'),
+        .min(2, 'must be at least 2 characters')
+        .max(25, 'must be 25 characters max'),
     text: yup.string()
         .required('enter the description of your hero')
         .min(10, 'must be at least 10 characters')
@@ -26,6 +25,9 @@ const schema = yup.object({
   }).required();
 
 const HeroesAddForm = () => {
+    const dispatch = useDispatch();
+    const { request } = useHttp();
+
     const { register, handleSubmit, formState: { errors, isSubmitSuccessful }, reset } = useForm({
         mode: 'onSubmit',
         defaultValues: { name: '', text: '', element: '' },
@@ -36,15 +38,27 @@ const HeroesAddForm = () => {
         if (isSubmitSuccessful) {
             reset();
         }
+        // eslint-disable-next-line
     }, [isSubmitSuccessful])
 
     const onSubmit = data => {
-        const newHero = {
-            id: uuidv4(),
-            ...data,
-        }
+        const { name, text } = data;
 
-        console.log(newHero);
+        const capitalizedName = `${name.split(' ')
+            .map(item => `${item[0].toUpperCase()}${item.slice(1).toLowerCase()}`)
+            .join(' ')}`;
+
+        const newHero = {
+            ...data,
+            id: uuidv4(),
+            name: capitalizedName,
+            description: `${text[0].toUpperCase()}${text.slice(1)}`
+        };
+
+        request('http://localhost:3001/heroes', 'POST', JSON.stringify(newHero))
+            .then(data => console.log(data, 'ADDED'))
+            .then(dispatch(heroAdded(newHero)))
+            .catch(() => dispatch(heroesFetchingError()))
     };
 
     const errorMessageStyles = {color: "red", marginTop: "10px"};
