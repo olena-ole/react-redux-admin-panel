@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
@@ -25,11 +26,17 @@ const schema = yup.object({
   }).required();
 
 const HeroesAddForm = () => {
-    const { register, handleSubmit, formState: { errors } } = useForm({
+    const { register, handleSubmit, formState: { errors, isSubmitSuccessful }, reset } = useForm({
         mode: 'onSubmit',
         defaultValues: { name: '', text: '', element: '' },
         resolver: yupResolver(schema)
       });
+
+    useEffect(() => {
+        if (isSubmitSuccessful) {
+            reset();
+        }
+    }, [isSubmitSuccessful])
 
     const onSubmit = data => {
         const newHero = {
@@ -39,6 +46,8 @@ const HeroesAddForm = () => {
 
         console.log(newHero);
     };
+
+    const errorMessageStyles = {color: "red", marginTop: "10px"};
 
     return (
         <form onSubmit={handleSubmit(onSubmit)} className="border p-4 shadow-lg rounded">
@@ -51,7 +60,7 @@ const HeroesAddForm = () => {
                     className="form-control" 
                     id="name" 
                     placeholder="What's my name?"/>
-                <p>{errors.name?.message}</p>
+                <p style={errorMessageStyles}>{errors.name?.message}</p>
             </div>
 
             <div className="mb-3">
@@ -63,7 +72,7 @@ const HeroesAddForm = () => {
                     id="text" 
                     placeholder="What can I do?"
                     style={{"height": '130px'}}/>
-                <p>{errors.text?.message}</p>
+                <p style={errorMessageStyles}>{errors.text?.message}</p>
             </div>
 
             <div className="mb-3">
@@ -79,7 +88,7 @@ const HeroesAddForm = () => {
                     <option value="wind">Wind</option>
                     <option value="earth">Earth</option>
                 </select>
-                <p>{errors.element?.message}</p>
+                <p style={errorMessageStyles}>{errors.element?.message}</p>
             </div>
 
             <button type="submit" className="btn btn-primary">Create</button>
