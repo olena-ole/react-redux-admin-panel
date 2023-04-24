@@ -5,8 +5,8 @@ import * as yup from 'yup';
 import { v4 as uuidv4 } from 'uuid';
 
 import { useHttp } from '../../hooks/http.hook';
-import { useDispatch } from 'react-redux';
-import { heroAdded, heroesFetchingError } from '../../actions';
+import { useSelector, useDispatch } from 'react-redux';
+import { heroAdded, heroesFetchingError, filtersFetching, filtersFetched, filtersFetchingError } from '../../actions';
 
 // Дополнительно:
 // Элементы <option></option> желательно сформировать на базе
@@ -25,8 +25,22 @@ const schema = yup.object({
   }).required();
 
 const HeroesAddForm = () => {
+    const {filters, filtersLoadingStatus} = useSelector(state => state);
+    console.log(filters, filtersLoadingStatus)
+
     const dispatch = useDispatch();
     const { request } = useHttp();
+
+    useEffect(() => {
+        console.log(filters, filtersLoadingStatus)
+        dispatch(filtersFetching());
+        request("http://localhost:3001/filters")
+            .then(data => dispatch(filtersFetched(data)))
+            .catch(() => dispatch(filtersFetchingError()))
+
+        // eslint-disable-next-line
+    }, []);
+    
 
     const { register, handleSubmit, formState: { errors, isSubmitSuccessful }, reset } = useForm({
         mode: 'onSubmit',

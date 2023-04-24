@@ -17,20 +17,6 @@
       "name": "Marine Hero",
       "description": "Like Aquaman, but not from the DC",
       "element": "water"
-    },
-    {
-      "name": "Quutfg Gfyfg",
-      "text": "gf dfh ty th sdfsdf ",
-      "element": "fire",
-      "id": "a02a7a3c-cd0d-41f4-9c03-0283f403acbb",
-      "description": "Gf dfh ty th sdfsdf "
-    },
-    {
-      "name": "Thor Ty",
-      "text": "hj fhj gf trhy fgt ",
-      "element": "earth",
-      "id": "e5e286be-f4ae-4879-b052-a64ae3d8ce95",
-      "description": "Hj fhj gf trhy fgt "
     }
   ],
   "filters": [
