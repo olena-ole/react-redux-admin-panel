@@ -93,7 +93,6 @@ const HeroesAddForm = () => {
             <div className="mb-3">
                 <label htmlFor="name" className="form-label fs-4">New hero's name</label>
                 <input 
-                    required
                     type="text" 
                     {...register('name') } 
                     className="form-control" 
@@ -105,7 +104,6 @@ const HeroesAddForm = () => {
             <div className="mb-3">
                 <label htmlFor="text" className="form-label fs-4">Description</label>
                 <textarea
-                    required
                     {...register('text', {required: true, minLength: 10, maxLength: 50})} 
                     className="form-control" 
                     id="text" 
@@ -117,7 +115,6 @@ const HeroesAddForm = () => {
             <div className="mb-3">
                 <label htmlFor="element" className="form-label">Choose the element of your hero</label>
                 <select 
-                    required
                     {...register('element', {required: true})}
                     className="form-select" 
                     id="element">
