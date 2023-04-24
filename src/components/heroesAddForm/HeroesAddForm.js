@@ -7,10 +7,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { useHttp } from '../../hooks/http.hook';
 import { useSelector, useDispatch } from 'react-redux';
 import { heroAdded, heroesFetchingError, filtersFetching, filtersFetched, filtersFetchingError } from '../../actions';
-
-// Дополнительно:
-// Элементы <option></option> желательно сформировать на базе
-// данных из фильтров
+import Spinner from '../spinner/Spinner';
 
 const schema = yup.object({
     name: yup.string()
@@ -26,13 +23,11 @@ const schema = yup.object({
 
 const HeroesAddForm = () => {
     const {filters, filtersLoadingStatus} = useSelector(state => state);
-    console.log(filters, filtersLoadingStatus)
 
     const dispatch = useDispatch();
     const { request } = useHttp();
 
     useEffect(() => {
-        console.log(filters, filtersLoadingStatus)
         dispatch(filtersFetching());
         request("http://localhost:3001/filters")
             .then(data => dispatch(filtersFetched(data)))
@@ -40,7 +35,6 @@ const HeroesAddForm = () => {
 
         // eslint-disable-next-line
     }, []);
-    
 
     const { register, handleSubmit, formState: { errors, isSubmitSuccessful }, reset } = useForm({
         mode: 'onSubmit',
@@ -77,6 +71,23 @@ const HeroesAddForm = () => {
 
     const errorMessageStyles = {color: "red", marginTop: "10px"};
 
+    const options = filters.length 
+        ? filters.map(filter => {
+            const key = uuidv4();
+            if (filter === 'all') {
+                return <option key={key} value="">I have the element of...</option>;
+            } else {
+                return <option key={key} value={filter}>{`${filter[0].toUpperCase()}${filter.slice(1)}`}</option>
+            }
+        })
+        : null;
+
+    if (filtersLoadingStatus === "loading") {
+        return <Spinner/>;
+    } else if (filtersLoadingStatus === "error") {
+        return <h5 className="text-center mt-5">Loading error</h5>
+    }
+    
     return (
         <form onSubmit={handleSubmit(onSubmit)} className="border p-4 shadow-lg rounded">
             <div className="mb-3">
@@ -110,11 +121,7 @@ const HeroesAddForm = () => {
                     {...register('element', {required: true})}
                     className="form-select" 
                     id="element">
-                    <option value="">I have the element of...</option>
-                    <option value="fire">Fire</option>
-                    <option value="water">Water</option>
-                    <option value="wind">Wind</option>
-                    <option value="earth">Earth</option>
+                    {options}
                 </select>
                 <p style={errorMessageStyles}>{errors.element?.message}</p>
             </div>
