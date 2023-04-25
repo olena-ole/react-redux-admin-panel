@@ -10,6 +10,7 @@ const HeroesList = () => {
     const {heroes, heroesLoadingStatus, filter} = useSelector(state => state);
     const dispatch = useDispatch();
     const {request} = useHttp();
+    
     const visibleHeroes = filter === 'all' 
         ? heroes 
         : heroes.filter(hero => hero.element === filter);

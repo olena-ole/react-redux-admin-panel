@@ -52,6 +52,11 @@ const reducer = (state = initialState, action) => {
                 ...state,
                 heroes: [...state.heroes, action.payload]
             }
+        case 'FILTER_CHANGED':
+            return {
+                ...state,
+                filter: action.payload
+            }
         default: return state
     }
 }

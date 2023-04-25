@@ -23,27 +23,27 @@
     {
       "name": "all",
       "id": 1,
-      "class": "outline-dark"
+      "classes": "outline-dark"
     },
     {
       "name": "fire",
       "id": 2,
-      "class": "danger"
+      "classes": "danger"
     },
     {
       "name": "water",
       "id": 3,
-      "class": "primary"
+      "classes": "primary"
     },
     {
       "name": "wind",
       "id": 4,
-      "class": "success"
+      "classes": "success"
     },
     {
       "name": "earth",
       "id": 5,
-      "class": "secondary"
+      "classes": "secondary"
     }
   ]
 }
