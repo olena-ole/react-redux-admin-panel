@@ -20,10 +20,30 @@
     }
   ],
   "filters": [
-    "all",
-    "fire",
-    "water",
-    "wind",
-    "earth"
+    {
+      "name": "all",
+      "id": 1,
+      "class": "outline-dark"
+    },
+    {
+      "name": "fire",
+      "id": 2,
+      "class": "danger"
+    },
+    {
+      "name": "water",
+      "id": 3,
+      "class": "primary"
+    },
+    {
+      "name": "wind",
+      "id": 4,
+      "class": "success"
+    },
+    {
+      "name": "earth",
+      "id": 5,
+      "class": "secondary"
+    }
   ]
 }

@@ -32,7 +32,6 @@ const HeroesAddForm = () => {
         request("http://localhost:3001/filters")
             .then(data => dispatch(filtersFetched(data)))
             .catch(() => dispatch(filtersFetchingError()))
-
         // eslint-disable-next-line
     }, []);
 
@@ -72,12 +71,11 @@ const HeroesAddForm = () => {
     const errorMessageStyles = {color: "red", marginTop: "10px"};
 
     const options = filters.length 
-        ? filters.map(filter => {
-            const key = uuidv4();
-            if (filter === 'all') {
-                return <option key={key} value="">I have the element of...</option>;
+        ? filters.map(({name, id}) => {
+            if (name === 'all') {
+                return <option key={id} value="">I have the element of...</option>;
             } else {
-                return <option key={key} value={filter}>{`${filter[0].toUpperCase()}${filter.slice(1)}`}</option>
+                return <option key={id} value={name}>{`${name[0].toUpperCase()}${name.slice(1)}`}</option>
             }
         })
         : null;
