@@ -4,13 +4,6 @@ import { filtersFetching, filtersFetched, filtersFetchingError, filterChanged } 
 import { useHttp } from "../../hooks/http.hook";
 import Spinner from "../spinner/Spinner";
 
-// Задача для этого компонента:
-// Фильтры должны формироваться на основании загруженных данных
-// Фильтры должны отображать только нужных героев при выборе
-// Активный фильтр имеет класс active
-// Изменять json-файл для удобства МОЖНО!
-// Представьте, что вы попросили бэкенд-разработчика об этом
-
 const HeroesFilters = () => {
     const {filters, filtersLoadingStatus, filter} = useSelector(state => state);
 
@@ -24,10 +17,6 @@ const HeroesFilters = () => {
             .catch(() => dispatch(filtersFetchingError()))
         // eslint-disable-next-line
     }, []);
-
-    // function handleClick(name) {
-    //     console.log(name);
-    // }
 
     if (filtersLoadingStatus === "loading") {
         return <Spinner/>;

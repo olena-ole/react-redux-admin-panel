@@ -6,11 +6,14 @@ import { heroesFetching, heroesFetched, heroesFetchingError, heroDelete } from '
 import HeroesListItem from "../heroesListItem/HeroesListItem";
 import Spinner from '../spinner/Spinner';
 
+import { CSSTransition, TransitionGroup } from 'react-transition-group';
+import './heroesList.scss';
+
 const HeroesList = () => {
     const {heroes, heroesLoadingStatus, filter} = useSelector(state => state);
     const dispatch = useDispatch();
     const {request} = useHttp();
-    
+
     const visibleHeroes = filter === 'all' 
         ? heroes 
         : heroes.filter(hero => hero.element === filter);
@@ -40,19 +43,25 @@ const HeroesList = () => {
 
     const renderHeroesList = (arr) => {
         if (arr.length === 0) {
-            return <h5 className="text-center mt-5">No heroes so far</h5>
+            return <CSSTransition timeout={0} classNames="hero">
+                <h5 className="text-center mt-5">No heroes so far</h5>
+            </CSSTransition>
         }
 
         return arr.map(({id, ...props}) => {
-            return <HeroesListItem key={id} {...props} handleDelete={() => handleDelete(id)} />
+            return (
+                <CSSTransition timeout={500} key={id} classNames="hero">
+                    <HeroesListItem {...props} handleDelete={() => handleDelete(id)} />
+                </CSSTransition>
+            )
         })
     }
 
     const elements = renderHeroesList(visibleHeroes);
     return (
-        <ul>
+        <TransitionGroup component='ul' >
             {elements}
-        </ul>
+        </TransitionGroup>
     )
 }
 
