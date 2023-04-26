@@ -1,31 +1,27 @@
 import {useHttp} from '../../hooks/http.hook';
 import { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-
 import { heroesFetching, heroesFetched, heroesFetchingError, heroDelete } from '../../actions';
+
 import HeroesListItem from "../heroesListItem/HeroesListItem";
 import Spinner from '../spinner/Spinner';
 
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import './heroesList.scss';
-import { useReducer } from 'react';
 
 const HeroesList = () => {
     const visibleHeroes = useSelector(state => {
-        if (state.filter === 'all') {
-            return state.heroes;
+        if (state.filters.filter === 'all') {
+            console.log('render');
+            return state.heroes.heroes;
         } else {
-            return state.heroes.filter(hero => hero.element === state.filter);
+            return state.heroes.heroes.filter(hero => hero.element === state.filters.filter);
         }
     });
 
-    const {heroesLoadingStatus} = useSelector(state => state.heroesLoadingStatus);
+    const heroesLoadingStatus = useSelector(state => state.heroes.heroesLoadingStatus);
     const dispatch = useDispatch();
     const {request} = useHttp();
-
-    // const visibleHeroes = filter === 'all' 
-    //     ? heroes 
-    //     : heroes.filter(hero => hero.element === filter);
 
     useEffect(() => {
         dispatch(heroesFetching());

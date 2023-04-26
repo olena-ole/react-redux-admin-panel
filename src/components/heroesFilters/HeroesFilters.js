@@ -5,7 +5,7 @@ import { useHttp } from "../../hooks/http.hook";
 import Spinner from "../spinner/Spinner";
 
 const HeroesFilters = () => {
-    const {filters, filtersLoadingStatus, filter} = useSelector(state => state);
+    const {filters, filtersLoadingStatus, filter} = useSelector(state => state.filters);
 
     const dispatch = useDispatch();
     const { request } = useHttp();
