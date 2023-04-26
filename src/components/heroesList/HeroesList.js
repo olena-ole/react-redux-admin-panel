@@ -8,15 +8,24 @@ import Spinner from '../spinner/Spinner';
 
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import './heroesList.scss';
+import { useReducer } from 'react';
 
 const HeroesList = () => {
-    const {heroes, heroesLoadingStatus, filter} = useSelector(state => state);
+    const visibleHeroes = useSelector(state => {
+        if (state.filter === 'all') {
+            return state.heroes;
+        } else {
+            return state.heroes.filter(hero => hero.element === state.filter);
+        }
+    });
+
+    const {heroesLoadingStatus} = useSelector(state => state.heroesLoadingStatus);
     const dispatch = useDispatch();
     const {request} = useHttp();
 
-    const visibleHeroes = filter === 'all' 
-        ? heroes 
-        : heroes.filter(hero => hero.element === filter);
+    // const visibleHeroes = filter === 'all' 
+    //     ? heroes 
+    //     : heroes.filter(hero => hero.element === filter);
 
     useEffect(() => {
         dispatch(heroesFetching());

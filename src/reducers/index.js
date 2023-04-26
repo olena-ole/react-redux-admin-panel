@@ -40,12 +40,10 @@ const reducer = (state = initialState, action) => {
                 ...state,
                 filtersLoadingStatus: 'error'
             }
-        case 'HERO_DELETED':
-            const newHeroesList = state.heroes.filter(hero => hero.id !== action.payload);
-            
+        case 'HERO_DELETED':           
             return {
                 ...state,
-                heroes: newHeroesList
+                heroes: state.heroes.filter(hero => hero.id !== action.payload)
             }
         case 'HERO_ADDED':
             return {
