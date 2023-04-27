@@ -1,7 +1,7 @@
 import {useHttp} from '../../hooks/http.hook';
 import { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { heroesFetching, heroesFetched, heroesFetchingError, heroDelete } from '../../actions';
+import { fetchHeroes, heroesFetchingError, heroDelete } from '../../actions';
 import { createSelector } from 'reselect';
 
 import HeroesListItem from "../heroesListItem/HeroesListItem";
@@ -16,7 +16,6 @@ const HeroesList = () => {
         state => state.heroes.heroes,
         (filter, heroes) => {
             if (filter === 'all') {
-                console.log('render')
                 return heroes;
             } else {
                 return heroes.filter(hero => hero.element === filter);
@@ -30,11 +29,7 @@ const HeroesList = () => {
     const {request} = useHttp();
 
     useEffect(() => {
-        dispatch('HEROES_FETCHING');
-        request("http://localhost:3001/heroes")
-            .then(data => dispatch(heroesFetched(data)))
-            .catch(() => dispatch(heroesFetchingError()))
-
+        dispatch(fetchHeroes(request));
         // eslint-disable-next-line
     }, []);
 
