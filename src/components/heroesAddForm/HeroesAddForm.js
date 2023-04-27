@@ -6,7 +6,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 import { useHttp } from '../../hooks/http.hook';
 import { useSelector, useDispatch } from 'react-redux';
-import { heroAdded, heroesFetchingError, filtersFetching, filtersFetched, filtersFetchingError } from '../../actions';
+import { heroAdded, heroesFetchingError, fetchFilters } from '../../actions';
 import Spinner from '../spinner/Spinner';
 
 const schema = yup.object({
@@ -28,10 +28,7 @@ const HeroesAddForm = () => {
     const { request } = useHttp();
 
     useEffect(() => {
-        dispatch(filtersFetching());
-        request("http://localhost:3001/filters")
-            .then(data => dispatch(filtersFetched(data)))
-            .catch(() => dispatch(filtersFetchingError()))
+        dispatch(fetchFilters(request));
         // eslint-disable-next-line
     }, []);
 
