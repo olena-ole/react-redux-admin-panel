@@ -1,5 +1,5 @@
 import { configureStore } from '@reduxjs/toolkit';
-import heroes from '../reducers/heroes';
+import heroes from '../components/heroesList/heroesSlice';
 import filters from '../reducers/filters';
 
 // 1st argument can be (store) OR store destructured ({dispatch, getState})

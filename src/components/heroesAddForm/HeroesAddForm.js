@@ -6,7 +6,8 @@ import { v4 as uuidv4 } from 'uuid';
 
 import { useHttp } from '../../hooks/http.hook';
 import { useSelector, useDispatch } from 'react-redux';
-import { heroAdded, heroesFetchingError, fetchFilters } from '../../actions';
+import { heroAdded, heroesFetchingError } from '../heroesList/heroesSlice';
+import { fetchFilters } from '../../actions';
 import Spinner from '../spinner/Spinner';
 
 const schema = yup.object({
