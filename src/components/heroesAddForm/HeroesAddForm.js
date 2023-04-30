@@ -6,8 +6,8 @@ import { v4 as uuidv4 } from 'uuid';
 
 import { useHttp } from '../../hooks/http.hook';
 import { useSelector, useDispatch } from 'react-redux';
-import { heroAdded, heroesFetchingError } from '../heroesList/heroesSlice';
-import { fetchFilters } from '../../actions';
+import { heroAdded } from '../heroesList/heroesSlice';
+import { fetchFilters } from '../heroesFilters/filtersSlice';
 import Spinner from '../spinner/Spinner';
 
 const schema = yup.object({
@@ -29,7 +29,7 @@ const HeroesAddForm = () => {
     const { request } = useHttp();
 
     useEffect(() => {
-        dispatch(fetchFilters(request));
+        dispatch(fetchFilters());
         // eslint-disable-next-line
     }, []);
 
@@ -63,7 +63,7 @@ const HeroesAddForm = () => {
         request('http://localhost:3001/heroes', 'POST', JSON.stringify(newHero))
             .then(data => console.log(data, 'ADDED'))
             .then(dispatch(heroAdded(newHero)))
-            .catch(() => dispatch(heroesFetchingError()))
+            .catch(err => console.log(err))
     };
 
     const errorMessageStyles = {color: "red", marginTop: "10px"};
