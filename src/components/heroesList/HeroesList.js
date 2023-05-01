@@ -1,7 +1,7 @@
 import {useHttp} from '../../hooks/http.hook';
 import { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchHeroes, heroDelete } from '../heroesList/heroesSlice';
+import { fetchHeroes, heroDelete, selectAll } from '../heroesList/heroesSlice';
 import { createSelector } from '@reduxjs/toolkit';
 
 import HeroesListItem from "../heroesListItem/HeroesListItem";
@@ -13,7 +13,7 @@ import './heroesList.scss';
 const HeroesList = () => {
     const visibleHeroesSelector = createSelector(
         state => state.filters.filter,
-        state => state.heroes.heroes,
+        selectAll,
         (filter, heroes) => {
             if (filter === 'all') {
                 return heroes;
