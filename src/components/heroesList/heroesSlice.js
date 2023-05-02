@@ -1,4 +1,4 @@
-import { createSlice, createAsyncThunk, createEntityAdapter } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk, createEntityAdapter, createSelector } from "@reduxjs/toolkit";
 import { useHttp } from '../../hooks/http.hook';
 
 const heroesAdapter = createEntityAdapter();
@@ -43,7 +43,19 @@ const { actions, reducer } = heroesSlice;
 export default reducer;
 
 // entities (prev state.heroes) are now saved as object, therefore selectAll returns array with heroes
-export const { selectAll } = heroesAdapter.getSelectors(state => state.heroes); 
+const { selectAll } = heroesAdapter.getSelectors(state => state.heroes); 
+
+export const visibleHeroesSelector = createSelector(
+    state => state.filters.filter,
+    selectAll,
+    (filter, heroes) => {
+        if (filter === 'all') {
+            return heroes;
+        } else {
+            return heroes.filter(hero => hero.element === filter);
+        }
+    }
+)
 
 export const {
     heroesFetching,
