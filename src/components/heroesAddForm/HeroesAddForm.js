@@ -4,10 +4,10 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { v4 as uuidv4 } from 'uuid';
 
-import { useHttp } from '../../hooks/http.hook';
+// import { useHttp } from '../../hooks/http.hook';
 import { useSelector, useDispatch } from 'react-redux';
-import { heroAdded } from '../heroesList/heroesSlice';
 import { fetchFilters, selectAll } from '../heroesFilters/filtersSlice';
+import { useCreateHeroMutation } from '../../api/apiSlice';
 import Spinner from '../spinner/Spinner';
 
 const schema = yup.object({
@@ -23,11 +23,12 @@ const schema = yup.object({
   }).required();
 
 const HeroesAddForm = () => {
+    const [ createHero ] = useCreateHeroMutation();
+
     const filters = useSelector(selectAll);
     const {filtersLoadingStatus} = useSelector(state => state.filters);
 
     const dispatch = useDispatch();
-    const { request } = useHttp();
 
     useEffect(() => {
         dispatch(fetchFilters());
@@ -61,10 +62,7 @@ const HeroesAddForm = () => {
             description: `${text[0].toUpperCase()}${text.slice(1)}`
         };
 
-        request('http://localhost:3001/heroes', 'POST', JSON.stringify(newHero))
-            .then(data => console.log(data, 'ADDED'))
-            .then(dispatch(heroAdded(newHero)))
-            .catch(err => console.log(err))
+        createHero(newHero).unwrap();
     };
 
     const errorMessageStyles = {color: "red", marginTop: "10px"};
