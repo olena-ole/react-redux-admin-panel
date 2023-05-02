@@ -7,7 +7,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { useHttp } from '../../hooks/http.hook';
 import { useSelector, useDispatch } from 'react-redux';
 import { heroAdded } from '../heroesList/heroesSlice';
-import { fetchFilters } from '../heroesFilters/filtersSlice';
+import { fetchFilters, selectAll } from '../heroesFilters/filtersSlice';
 import Spinner from '../spinner/Spinner';
 
 const schema = yup.object({
@@ -23,7 +23,8 @@ const schema = yup.object({
   }).required();
 
 const HeroesAddForm = () => {
-    const {filters, filtersLoadingStatus} = useSelector(state => state.filters);
+    const filters = useSelector(selectAll);
+    const {filtersLoadingStatus} = useSelector(state => state.filters);
 
     const dispatch = useDispatch();
     const { request } = useHttp();
