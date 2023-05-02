@@ -1,7 +1,8 @@
 import {useHttp} from '../../hooks/http.hook';
-import { useCallback, useEffect } from 'react';
+import { useCallback, useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchHeroes, heroDelete, visibleHeroesSelector } from '../heroesList/heroesSlice';
+import { useGetHeroesQuery } from '../../api/apiSlice';
 
 import HeroesListItem from "../heroesListItem/HeroesListItem";
 import Spinner from '../spinner/Spinner';
@@ -10,8 +11,31 @@ import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import './heroesList.scss';
 
 const HeroesList = () => {
-    const visibleHeroes = useSelector(visibleHeroesSelector);
-    const heroesLoadingStatus = useSelector(state => state.heroes.heroesLoadingStatus);
+    const {
+        data: heroes = [],
+        isFetching,
+        isLoading,
+        // isSuccess,
+        isError,
+        // error
+    } = useGetHeroesQuery();
+
+    const activeFilter = useSelector(state => state.filters.filter);
+
+    const visibleHeroes = useMemo(() => {
+        const filteredHeroes = [...heroes];
+
+        if (activeFilter === 'all') {
+            return filteredHeroes;
+        } else {
+            return filteredHeroes.filter(hero => hero.element === activeFilter);
+        }
+
+        // eslint-disable-next-line
+    }, [heroes, activeFilter]);
+
+    // const visibleHeroes = useSelector(visibleHeroesSelector);
+    // const heroesLoadingStatus = useSelector(state => state.heroes.heroesLoadingStatus);
     const dispatch = useDispatch();
     const { request } = useHttp();
 
@@ -28,9 +52,9 @@ const HeroesList = () => {
         // eslint-disable-next-line 
     }, [request]);
 
-    if (heroesLoadingStatus === "loading") {
+    if (isLoading || isFetching) {
         return <Spinner/>;
-    } else if (heroesLoadingStatus === "error") {
+    } else if (isError) {
         return <h5 className="text-center mt-5">Loading error</h5>
     }
 
